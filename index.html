@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>快递转运 · 手动自动</title>
+    <style>
+        /* ----- 移动端样式（基于原版，增加手动输入区域样式）----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f2f7fb;
+            color: #1e2e3e;
+            padding: 16px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+        }
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            color: #0a3b4e;
+            border-left: 6px solid #2a9d8f;
+            padding-left: 16px;
+        }
+        h1 span {
+            background: #2a9d8f;
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #0f4b5c;
+        }
+        .card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+            padding: 22px 20px;
+            margin-bottom: 20px;
+            border: 1px solid #eaf0f3;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: white;
+            border: 1px solid #cbd8e0;
+            padding: 14px 22px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #134e5e;
+            background: #f9fdff;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            line-height: 1;
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: #0f3b5e;
+            color: white;
+            border: none;
+            background: linear-gradient(145deg, #1a5a6e, #0e485a);
+            box-shadow: 0 6px 12px rgba(13,79,88,0.2);
+        }
+        .btn-outline {
+            border: 1.5px solid #2a9d8f;
+            color: #2a9d8f;
+            background: white;
+        }
+        .btn-sm {
+            padding: 10px 18px;
+            font-size: 0.9rem;
+        }
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .btn-group .btn {
+            flex: 1 0 calc(50% - 14px);
+            white-space: normal;
+            word-break: break-word;
+        }
+        .file-input {
+            display: none;
+        }
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: #f6fbfd;
+            padding: 22px 18px;
+            border-radius: 24px;
+            margin-bottom: 8px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .input-group label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #436c7a;
+            margin-left: 6px;
+        }
+        input, select {
+            width: 100%;
+            padding: 16px 18px;
+            border: 1.5px solid #d4e2ea;
+            border-radius: 30px;
+            font-size: 1rem;
+            background: white;
+            transition: 0.2s;
+            outline: none;
+            font-family: inherit;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        input:focus, select:focus {
+            border-color: #2a9d8f;
+            box-shadow: 0 0 0 4px rgba(42,157,143,0.12);
+        }
+        .query-area {
+            background: #eaf5f3;
+            border-radius: 28px;
+            padding: 22px 18px;
+        }
+        .select-row {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .select-row select {
+            width: 100%;
+        }
+        .select-row .btn {
+            width: 100%;
+            margin-top: 6px;
+            padding: 16px;
+        }
+        /* 手动输入区域样式 */
+        .manual-row {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 2px dashed #bcd4db;
+        }
+        .manual-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1d6f64;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .manual-title::before {
+            content: "✏️";
+            font-size: 1.2rem;
+        }
+        .input-row {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .input-row input {
+            width: 100%;
+        }
+        .auto-hint {
+            font-size: 0.8rem;
+            color: #2a9d8f;
+            margin: 8px 0 4px 8px;
+        }
+        .btn-manual-query {
+            background: #2a9d8f;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+        }
+        .result-box {
+            background: white;
+            border-radius: 24px;
+            padding: 18px;
+            margin-top: 24px;
+            border: 1px solid #cee5e0;
+        }
+        .result-title {
+            font-weight: 700;
+            color: #0b4452;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        .transit-card {
+            background: #f9fefe;
+            border-left: 8px solid #2a9d8f;
+            padding: 18px 16px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+        .transit-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #0f3b4c;
+            flex: 1 1 100%;
+        }
+        .badge {
+            background: #def0ec;
+            padding: 8px 16px;
+            border-radius: 40px;
+            color: #146359;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .empty-msg {
+            color: #617e8a;
+            padding: 22px;
+            text-align: center;
+            background: #f6fafc;
+            border-radius: 20px;
+            font-size: 1rem;
+        }
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 18px;
+            border-radius: 20px;
+            background: white;
+            padding: 4px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 420px;
+            font-size: 0.9rem;
+        }
+        th {
+            background: #ddeef2;
+            color: #104451;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            padding: 16px 12px;
+            text-align: left;
+            letter-spacing: 0.04em;
+        }
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #e1ebef;
+            background: white;
+            vertical-align: middle;
+        }
+        .delete-btn {
+            background: none;
+            border: 1.5px solid #ffaa99;
+            color: #b23e2c;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.1s;
+            background: #fff6f3;
+            white-space: nowrap;
+        }
+        .delete-btn:hover {
+            background: #ffe9e4;
+        }
+        .stats {
+            font-size: 0.9rem;
+            color: #2f6a78;
+            font-weight: 600;
+            background: #e2f0f2;
+            padding: 6px 18px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        .flex-row {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+        .footer-note {
+            margin-top: 20px;
+            color: #4d707d;
+            font-size: 0.8rem;
+            text-align: center;
+            border-top: 1px solid #d0e0e5;
+            padding-top: 20px;
+        }
+        button, .btn, select, input[type="file"] {
+            touch-action: manipulation;
+        }
+        .encoding-tip {
+            background: #fff1e0;
+            border-left: 6px solid #e67e22;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            color: #5a3e1b;
+            margin-top: 16px;
+        }
+        .auto-query-tip {
+            background: #e0f2fe;
+            border-left: 6px solid #0284c7;
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            color: #075985;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <h1>
+            📦 速转运 
+            <span>手动自动</span>
+        </h1>
+
+        <div class="flex-row">
+            <!-- 1️⃣ 快递员查询单元（优先）- 手动输入自动查询 -->
+            <div class="card">
+                <h2>🔎 快递员查询</h2>
+                <div class="query-area">
+                    <div class="auto-query-tip">
+                        ⚡ 快速选择：下拉选点后自动匹配
+                    </div>
+                    <div class="select-row">
+                        <select id="originSelect">
+                            <option value="" disabled selected>— 发件目的地 —</option>
+                        </select>
+                        <select id="destSelect">
+                            <option value="" disabled selected>— 收件目的地 —</option>
+                        </select>
+                        <button id="queryBtn" class="btn btn-primary">🔁 下拉查询</button>
+                    </div>
+
+                    <!-- 手动输入区域（带自动反显） -->
+                    <div class="manual-row">
+                        <div class="manual-title">手动输入目的地（自动查询）</div>
+                        <div class="input-row">
+                            <input type="text" id="manualOrigin" placeholder="输入发件地（如：深圳）" value="">
+                            <input type="text" id="manualDest" placeholder="输入收件地（如：南京）" value="">
+                        </div>
+                        <div class="auto-hint">⏱️ 输入完成后稍等片刻，自动显示结果</div>
+                        <button id="manualQueryBtn" class="btn btn-manual-query">✏️ 手动查询（备用）</button>
+                    </div>
+                    
+                    <div class="result-box">
+                        <div class="result-title">
+                            <span>🚚 匹配转运站</span>
+                            <span id="resultCount" style="background: #2a9d8f20; padding: 5px 16px; border-radius: 40px; font-size: 0.9rem;">0</span>
+                        </div>
+                        <div id="resultList">
+                            <div class="empty-msg">👆 请选择或输入地点，自动匹配</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 12px; color: #366f7c; padding: 6px 10px; font-size: 0.9rem; background: #ecf6f4; border-radius: 30px; text-align: center;">
+                    ⚡ 实时匹配，数据本地保存
+                </div>
+            </div>
+
+            <!-- 2️⃣ 管理转运站单元（下方）保持不变 -->
+            <div class="card">
+                <h2>⚙️ 管理转运站</h2>
+                
+                <div class="btn-group">
+                    <label for="importFile" class="btn btn-outline">📂 导入替换</label>
+                    <input type="file" id="importFile" class="file-input" accept=".csv, text/csv, text/plain">
+                    
+                    <button id="exportBtn" class="btn btn-outline">⬇️ 导出CSV</button>
+                    
+                    <label for="updateFile" class="btn btn-primary">🔄 上传更新</label>
+                    <input type="file" id="updateFile" class="file-input" accept=".csv, text/csv, text/plain">
+                </div>
+
+                <div class="encoding-tip">
+                    💡 <strong>导入默认GB2312/GBK</strong>（Excel保存的ANSI格式直接上传）<br>
+                    ⬇️ 导出为UTF-8+BOM，Excel双击直接打开（不乱码）<br>
+                    🔄 上传更新自动识别UTF-8/UTF-16 BOM，无BOM时按GB2312解码。
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>🚩 转运站名称</label>
+                        <input type="text" id="newStationName" placeholder="例：上海浦东西" value="">
+                    </div>
+                    <div class="input-group">
+                        <label>📤 发件目的地</label>
+                        <input type="text" id="newOrigin" placeholder="城市/区域" value="">
+                    </div>
+                    <div class="input-group">
+                        <label>📥 收件目的地</label>
+                        <input type="text" id="newDest" placeholder="城市/区域" value="">
+                    </div>
+                    <button id="addRecordBtn" class="btn btn-primary" style="width:100%; margin-top: 8px;">➕ 添加此路线</button>
+                </div>
+
+                <div class="section-header">
+                    <span style="font-weight: 700; color: #0f4b5c;">📋 当前转运表</span>
+                    <span id="recordCount" class="stats">0 条</span>
+                </div>
+                <div class="table-responsive">
+                    <table id="stationTable">
+                        <thead>
+                            <tr>
+                                <th>转运站</th>
+                                <th>发件地</th>
+                                <th>收件地</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- JS渲染 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            📱 移动专业版 · 下拉自动+手动自动 · 导入默认GB2312 · 导出UTF-8+BOM
+        </div>
+    </div>
+
+    <script>
+        (function(){
+            "use strict";
+
+            const STORAGE_KEY = 'transit_stations_manual_auto';
+            const DEFAULT_STATIONS = [
+                { station: "上海浦东西转运中心", origin: "上海", destination: "北京" },
+                { station: "上海浦东西转运中心", origin: "上海", destination: "广州" },
+                { station: "北京大兴转运枢纽", origin: "北京", destination: "上海" },
+                { station: "北京大兴转运枢纽", origin: "北京", destination: "成都" },
+                { station: "广州白云集散站", origin: "广州", destination: "成都" },
+                { station: "广州白云集散站", origin: "广州", destination: "西安" },
+                { station: "武汉华中转运仓", origin: "武汉", destination: "西安" },
+                { station: "武汉华中转运仓", origin: "武汉", destination: "南京" },
+                { station: "成都青白江中转站", origin: "成都", destination: "北京" },
+                { station: "西安陆港转运场", origin: "西安", destination: "兰州" }
+            ];
+
+            let stations = [];
+
+            // DOM 元素
+            const tableBody = document.getElementById('tableBody');
+            const originSelect = document.getElementById('originSelect');
+            const destSelect = document.getElementById('destSelect');
+            const queryBtn = document.getElementById('queryBtn');
+            const manualOrigin = document.getElementById('manualOrigin');
+            const manualDest = document.getElementById('manualDest');
+            const manualQueryBtn = document.getElementById('manualQueryBtn');
+            const resultList = document.getElementById('resultList');
+            const resultCount = document.getElementById('resultCount');
+            const recordCountSpan = document.getElementById('recordCount');
+            const newStationName = document.getElementById('newStationName');
+            const newOrigin = document.getElementById('newOrigin');
+            const newDest = document.getElementById('newDest');
+            const addRecordBtn = document.getElementById('addRecordBtn');
+            const exportBtn = document.getElementById('exportBtn');
+            const importFile = document.getElementById('importFile');
+            const updateFile = document.getElementById('updateFile');
+
+            // ---------- 存储辅助 ----------
+            function saveToStorage() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(stations));
+            }
+
+            function loadFromStorage() {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored) {
+                    try {
+                        stations = JSON.parse(stored);
+                        if (!Array.isArray(stations)) stations = [...DEFAULT_STATIONS];
+                    } catch (e) {
+                        stations = [...DEFAULT_STATIONS];
+                    }
+                } else {
+                    stations = [...DEFAULT_STATIONS];
+                    saveToStorage();
+                }
+                stations = stations.filter(item => item && typeof item === 'object' && item.station && item.origin && item.destination);
+                return stations;
+            }
+
+            // ---------- 渲染UI ----------
+            function refreshUI() {
+                renderTable();
+                renderDropdowns();
+                updateRecordCount();
+                // 清空查询结果（因为数据变了，之前的选择可能已不存在）
+                clearQueryResult();
+            }
+
+            function renderTable() {
+                if (!tableBody) return;
+                if (stations.length === 0) {
+                    tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 30px; color: #6a8693;">📭 暂无数据，请导入或添加</td></tr>`;
+                    return;
+                }
+                let html = '';
+                stations.forEach((item, index) => {
+                    html += `<tr>
+                        <td style="font-weight: 600;">${escapeHtml(item.station || '')}</td>
+                        <td>${escapeHtml(item.origin || '')}</td>
+                        <td>${escapeHtml(item.destination || '')}</td>
+                        <td><button class="delete-btn" data-index="${index}">删除</button></td>
+                    </tr>`;
+                });
+                tableBody.innerHTML = html;
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        const index = parseInt(e.currentTarget.getAttribute('data-index'), 10);
+                        if (!isNaN(index) && index >= 0 && index < stations.length) {
+                            stations.splice(index, 1);
+                            saveToStorage();
+                            refreshUI();
+                        }
+                    });
+                });
+            }
+
+            function escapeHtml(unsafe) {
+                if (!unsafe) return '';
+                return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+            }
+
+            function updateRecordCount() {
+                if (recordCountSpan) {
+                    recordCountSpan.innerText = `${stations.length} 条`;
+                }
+            }
+
+            function renderDropdowns() {
+                if (!originSelect || !destSelect) return;
+                const origins = [...new Set(stations.map(s => s.origin).filter(Boolean))].sort();
+                const destinations = [...new Set(stations.map(s => s.destination).filter(Boolean))].sort();
+                
+                // 保存当前选中的值（如果有），以便刷新后保留选择
+                const oldOrigin = originSelect.value;
+                const oldDest = destSelect.value;
+
+                let originHtml = `<option value="" disabled selected>— 发件目的地 —</option>`;
+                origins.forEach(city => {
+                    originHtml += `<option value="${escapeHtml(city)}">${escapeHtml(city)}</option>`;
+                });
+                originSelect.innerHTML = originHtml;
+
+                let destHtml = `<option value="" disabled selected>— 收件目的地 —</option>`;
+                destinations.forEach(city => {
+                    destHtml += `<option value="${escapeHtml(city)}">${escapeHtml(city)}</option>`;
+                });
+                destSelect.innerHTML = destHtml;
+
+                // 尝试恢复之前选中的值（如果还存在）
+                if (origins.includes(oldOrigin)) {
+                    originSelect.value = oldOrigin;
+                }
+                if (destinations.includes(oldDest)) {
+                    destSelect.value = oldDest;
+                }
+            }
+
+            function clearQueryResult() {
+                if (resultList) {
+                    resultList.innerHTML = `<div class="empty-msg">👆 请选择或输入地点，自动匹配</div>`;
+                }
+                if (resultCount) resultCount.innerText = '0';
+            }
+
+            // ---------- 核心查询（支持传入自定义origin/dest）----------
+            function queryTransitStation(origin, dest) {
+                if (!origin || !dest) {
+                    clearQueryResult();
+                    return;
+                }
+
+                const matched = stations.filter(item => item.origin === origin && item.destination === dest);
+                if (matched.length === 0) {
+                    resultList.innerHTML = `<div class="empty-msg">🚫 无匹配转运站<br><span style="font-size:0.85rem;">${escapeHtml(origin)} → ${escapeHtml(dest)}</span></div>`;
+                    resultCount.innerText = '0';
+                } else {
+                    let html = '';
+                    matched.forEach(item => {
+                        html += `<div class="transit-card">
+                            <span class="transit-name">🚛 ${escapeHtml(item.station)}</span>
+                            <span class="badge">${escapeHtml(item.origin)}</span>
+                            <span style="color: #2a9d8f; font-weight: 600;">→</span>
+                            <span class="badge">${escapeHtml(item.destination)}</span>
+                        </div>`;
+                    });
+                    resultList.innerHTML = html;
+                    resultCount.innerText = `${matched.length}`;
+                }
+            }
+
+            // ---------- 自动查询触发器（使用下拉框的值）----------
+            function autoQueryHandler() {
+                const origin = originSelect.value;
+                const dest = destSelect.value;
+                if (origin && dest) {
+                    queryTransitStation(origin, dest);
+                } else {
+                    clearQueryResult();
+                }
+            }
+
+            // ---------- 手动查询（使用输入框的值）----------
+            function manualQueryHandler() {
+                const origin = manualOrigin.value.trim();
+                const dest = manualDest.value.trim();
+                if (!origin || !dest) {
+                    alert('请完整填写发件地和收件地');
+                    return;
+                }
+                queryTransitStation(origin, dest);
+            }
+
+            // ---------- 防抖函数 ----------
+            function debounce(func, delay) {
+                let timer;
+                return function(...args) {
+                    clearTimeout(timer);
+                    timer = setTimeout(() => func.apply(this, args), delay);
+                };
+            }
+
+            // 手动输入自动查询（防抖500ms）
+            const manualAutoQuery = debounce(function() {
+                const origin = manualOrigin.value.trim();
+                const dest = manualDest.value.trim();
+                if (origin && dest) {
+                    queryTransitStation(origin, dest);
+                } else {
+                    // 如果任一为空，可以清空结果，但为了不频繁清空，可以选择不操作
+                    // 这里选择当两个输入框都不为空时才查询，否则不清空（避免输入过程中结果闪烁）
+                }
+            }, 500);
+
+            // 为手动输入框添加 input 事件监听
+            manualOrigin.addEventListener('input', manualAutoQuery);
+            manualDest.addEventListener('input', manualAutoQuery);
+
+            // ---------- 导出为 UTF-8 + BOM（Excel双击直接打开）----------
+            function exportToCSV() {
+                if (stations.length === 0) {
+                    alert('暂无数据可导出');
+                    return;
+                }
+
+                let csvContent = "转运站,发件目的地,收件目的地\n";
+                stations.forEach(item => {
+                    csvContent += `${item.station},${item.origin},${item.destination}\n`;
+                });
+
+                // 加入 UTF-8 BOM
+                const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `转运站数据_${new Date().getTime()}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            // ---------- 智能导入：UTF-8/UTF-16 BOM优先，无BOM默认GB2312 ----------
+            function parseCSVAndReplaceFromArrayBuffer(buffer, source = '导入') {
+                let content = '';
+                const arr = new Uint8Array(buffer);
+                
+                if (arr.length >= 2 && arr[0] === 0xFF && arr[1] === 0xFE) {
+                    const utf16 = new Uint16Array(buffer.slice(2));
+                    content = String.fromCharCode.apply(null, utf16);
+                }
+                else if (arr.length >= 3 && arr[0] === 0xEF && arr[1] === 0xBB && arr[2] === 0xBF) {
+                    const decoder = new TextDecoder('utf-8');
+                    content = decoder.decode(buffer.slice(3));
+                }
+                else {
+                    try {
+                        const decoder = new TextDecoder('gb18030');
+                        content = decoder.decode(buffer);
+                    } catch(e) {
+                        try {
+                            const decoder = new TextDecoder('utf-8');
+                            content = decoder.decode(buffer);
+                        } catch(e2) {
+                            alert('解码失败，请确保文件为GB2312或UTF-8编码');
+                            return false;
+                        }
+                    }
+                }
+
+                const lines = content.split(/\r?\n/).filter(line => line.trim() !== '');
+                if (lines.length <= 1) {
+                    alert('CSV缺少数据行（至少标题+1行数据）');
+                    return false;
+                }
+
+                const newStations = [];
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (line === '') continue;
+                    const parts = line.split(',').map(s => s.trim());
+                    if (parts.length >= 3) {
+                        const station = parts[0];
+                        const origin = parts[1];
+                        const dest = parts[2];
+                        if (station && origin && dest) {
+                            newStations.push({ station, origin, destination: dest });
+                        }
+                    }
+                }
+
+                if (newStations.length === 0) {
+                    alert('未解析到有效数据，请确保CSV格式为：转运站,发件地,收件地');
+                    return false;
+                }
+
+                stations = newStations;
+                saveToStorage();
+                refreshUI();
+                alert(`✅ 成功${source} ${newStations.length} 条转运记录`);
+                return true;
+            }
+
+            // ---------- 事件绑定 ----------
+            function bindEvents() {
+                // 下拉查询按钮（使用下拉框的值）
+                queryBtn.addEventListener('click', autoQueryHandler);
+
+                // 自动查询：选择发件地或收件地时自动触发
+                originSelect.addEventListener('change', autoQueryHandler);
+                destSelect.addEventListener('change', autoQueryHandler);
+
+                // 手动查询按钮（备用）
+                manualQueryBtn.addEventListener('click', manualQueryHandler);
+
+                // 添加记录
+                addRecordBtn.addEventListener('click', function() {
+                    const station = newStationName.value.trim();
+                    const origin = newOrigin.value.trim();
+                    const dest = newDest.value.trim();
+                    if (!station || !origin || !dest) {
+                        alert('转运站、发件地、收件地不能为空');
+                        return;
+                    }
+                    stations.push({ station, origin, destination: dest });
+                    saveToStorage();
+                    refreshUI();
+                    newStationName.value = '';
+                    newOrigin.value = '';
+                    newDest.value = '';
+                });
+
+                // 导出
+                exportBtn.addEventListener('click', exportToCSV);
+
+                // 导入（替换）
+                importFile.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        parseCSVAndReplaceFromArrayBuffer(ev.target.result, '导入');
+                        importFile.value = '';
+                    };
+                    reader.readAsArrayBuffer(file);
+                });
+
+                // 上传更新（替换）
+                updateFile.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        parseCSVAndReplaceFromArrayBuffer(ev.target.result, '上传更新');
+                        updateFile.value = '';
+                    };
+                    reader.readAsArrayBuffer(file);
+                });
+            }
+
+            // 初始化
+            function init() {
+                loadFromStorage();
+                refreshUI();
+                bindEvents();
+                // 初始化时如果下拉框有默认选中的值，自动查询一次
+                setTimeout(() => {
+                    if (originSelect.value && destSelect.value) {
+                        autoQueryHandler();
+                    }
+                }, 10);
+            }
+
+            init();
+        })();
+    </script>
+</body>
+</html>
