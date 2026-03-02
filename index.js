@@ -1,4 +1,4 @@
-// 默认数据
+// Worker 端完整代码
 const DEFAULT_STATIONS = [
   { station: "上海浦东西转运中心", origin: "上海", destination: "北京" },
   { station: "上海浦东西转运中心", origin: "上海", destination: "广州" },
@@ -24,7 +24,6 @@ export default {
     const path = url.pathname;
     const method = request.method;
 
-    // 处理预检请求
     if (method === 'OPTIONS') {
       return new Response(null, { headers: corsHeaders });
     }
@@ -48,7 +47,7 @@ export default {
       }
     }
 
-    // 验证密码（新增）
+    // 验证密码
     if (path === '/api/verify-password' && method === 'POST') {
       try {
         const { password } = await request.json();

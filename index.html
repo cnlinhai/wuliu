@@ -3,152 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>快递转运 · 折叠密码增强版</title>
+    <title>速转运 · 通化邮政</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
-        /* ----- 完整样式（与之前一致，无需改动）----- */
+        /* 完整样式，与之前一致 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #f2f7fb;
-            color: #1e2e3e;
+            background: linear-gradient(145deg, #e8f3f0 0%, #d4eae3 100%);
+            color: #1e3a3a;
             padding: 16px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             line-height: 1.5;
         }
+
         .app-container {
             max-width: 600px;
             margin: 0 auto;
             width: 100%;
         }
+
+        /* 邮政主题标题 */
         h1 {
-            font-size: 1.75rem;
+            font-size: 2rem;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            color: #0a3b4e;
-            border-left: 6px solid #2a9d8f;
-            padding-left: 16px;
+            gap: 10px;
+            margin-bottom: 24px;
+            color: #1a5a4f;
+            letter-spacing: -0.02em;
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 12px 24px;
+            border-radius: 60px;
+            box-shadow: 0 8px 25px rgba(30,80,60,0.15), inset 0 1px 2px rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.7);
         }
         h1 span {
-            background: #2a9d8f;
+            background: #2d8c7a;
             color: white;
-            font-size: 0.7rem;
-            padding: 3px 10px;
-            border-radius: 30px;
+            font-size: 0.8rem;
+            padding: 4px 16px;
+            border-radius: 40px;
             font-weight: 600;
+            letter-spacing: 0.3px;
+            margin-left: auto;
+            box-shadow: 0 4px 8px rgba(45,140,122,0.3);
         }
+
         h2 {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #0f4b5c;
+            color: #1f6e60;
         }
-        .card {
-            background: white;
-            border-radius: 28px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-            padding: 22px 20px;
-            margin-bottom: 20px;
-            border: 1px solid #eaf0f3;
+
+        /* 亚克力卡片 */
+        .card, details.card {
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -10px rgba(30,80,60,0.2), inset 0 1px 2px rgba(255,255,255,0.6);
+            padding: 24px 22px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.7);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        details.manage-details summary {
+
+        /* 可折叠卡片样式 */
+        details.card > summary {
             list-style: none;
             cursor: pointer;
             outline: none;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 600;
-            color: #0f4b5c;
+            color: #1f6e60;
+            padding: 0;
+            border-radius: 40px;
         }
-        details.manage-details summary::-webkit-details-marker {
+        details.card > summary::-webkit-details-marker {
             display: none;
         }
-        details.manage-details summary::after {
-            content: "▼";
-            font-size: 1.2rem;
-            color: #2a9d8f;
-            transition: transform 0.2s;
+        details.card > summary::after {
+            content: "";
+            width: 24px;
+            height: 24px;
+            background: #2d8c7a;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat center;
+            mask-size: contain;
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat center;
+            -webkit-mask-size: contain;
+            transition: transform 0.3s;
             margin-left: 8px;
         }
-        details.manage-details[open] summary::after {
-            content: "▲";
+        details.card[open] > summary::after {
+            transform: rotate(180deg);
         }
-        details.manage-details[open] .manage-content {
-            margin-top: 20px;
+        details.card[open] > summary {
+            margin-bottom: 20px;
         }
+        details.card[open] {
+            animation: slideDown 0.2s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0.8; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 嵌套折叠面板样式 */
+        .nested-details {
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 28px;
+            border: 1px solid rgba(255,255,255,0.5);
+            overflow: hidden;
+        }
+        .nested-details summary {
+            list-style: none;
+            cursor: pointer;
+            outline: none;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f6e60;
+            padding: 16px 20px;
+            border-radius: 28px;
+            transition: background 0.2s;
+        }
+        .nested-details summary::-webkit-details-marker {
+            display: none;
+        }
+        .nested-details summary::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            background: #2d8c7a;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat center;
+            mask-size: contain;
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat center;
+            -webkit-mask-size: contain;
+            transition: transform 0.3s;
+            margin-left: 8px;
+        }
+        .nested-details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        .nested-details[open] summary {
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+        .nested-details .nested-content {
+            padding: 16px;
+            animation: fadeIn 0.2s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 按钮与涟漪 */
         .btn {
+            position: relative;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background: white;
-            border: 1px solid #cbd8e0;
-            padding: 14px 22px;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.8);
+            padding: 14px 24px;
             border-radius: 60px;
             font-weight: 600;
             font-size: 1rem;
-            color: #134e5e;
-            background: #f9fdff;
+            color: #1e6b5e;
             cursor: pointer;
-            transition: 0.15s;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02), inset 0 1px 2px rgba(255,255,255,0.8);
             line-height: 1;
             white-space: nowrap;
+            overflow: hidden;
+        }
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255,255,255,0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        .btn:active::after {
+            animation: ripple 0.3s ease-out;
+        }
+        @keyframes ripple {
+            0% { transform: scale(0, 0); opacity: 0.5; }
+            100% { transform: scale(40, 40); opacity: 0; }
         }
         .btn-primary {
-            background: #0f3b5e;
+            background: linear-gradient(145deg, #2d8c7a, #1a6b5c);
             color: white;
             border: none;
-            background: linear-gradient(145deg, #1a5a6e, #0e485a);
-            box-shadow: 0 6px 12px rgba(13,79,88,0.2);
+            box-shadow: 0 8px 18px rgba(45,140,122,0.3), inset 0 1px 2px rgba(255,255,255,0.4);
         }
         .btn-outline {
-            border: 1.5px solid #2a9d8f;
-            color: #2a9d8f;
-            background: white;
+            border: 1.5px solid #2d8c7a;
+            color: #2d8c7a;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px);
         }
         .btn-sm {
-            padding: 10px 18px;
+            padding: 10px 20px;
             font-size: 0.9rem;
         }
         .btn-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 14px;
+            gap: 12px;
             margin-bottom: 24px;
         }
         .btn-group .btn {
-            flex: 1 0 calc(50% - 14px);
+            flex: 1 0 calc(50% - 12px);
             white-space: normal;
-            word-break: break-word;
         }
         .file-input {
             display: none;
         }
+
+        /* 表单区域 */
         .form-row {
             display: flex;
             flex-direction: column;
             gap: 16px;
-            background: #f6fbfd;
-            padding: 22px 18px;
-            border-radius: 24px;
-            margin-bottom: 8px;
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 24px 20px;
+            border-radius: 28px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.7);
         }
         .input-group {
             display: flex;
@@ -159,379 +280,598 @@
             font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: #436c7a;
-            margin-left: 6px;
+            letter-spacing: 0.05em;
+            color: #2b7a6f;
+            margin-left: 8px;
         }
+
+        /* 输入框与下拉菜单 - 亚克力质感，圆角与卡片一致 */
         input, select {
             width: 100%;
-            padding: 16px 18px;
-            border: 1.5px solid #d4e2ea;
-            border-radius: 30px;
+            padding: 16px 20px;
+            border: 1.5px solid rgba(255,255,255,0.8);
+            border-radius: 40px;
             font-size: 1rem;
-            background: white;
-            transition: 0.2s;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.2s;
             outline: none;
             font-family: inherit;
             -webkit-appearance: none;
             appearance: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02), inset 0 1px 3px rgba(255,255,255,0.8);
+            color: #1e3a3a;
         }
         input:focus, select:focus {
-            border-color: #2a9d8f;
-            box-shadow: 0 0 0 4px rgba(42,157,143,0.12);
+            border-color: #2d8c7a;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 0 4px rgba(45,140,122,0.2);
         }
+        select {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%232d8c7a" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            background-size: 18px;
+            padding-right: 50px;
+        }
+        select::-ms-expand {
+            display: none;
+        }
+
+        /* 查询区域 */
         .query-area {
-            background: #eaf5f3;
-            border-radius: 28px;
-            padding: 22px 18px;
+            background: rgba(240,250,245,0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 32px;
+            padding: 0;
+            border: none;
         }
         .select-row {
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        .select-row select {
-            width: 100%;
+            gap: 14px;
         }
         .select-row .btn {
             width: 100%;
-            margin-top: 6px;
-            padding: 16px;
+            margin-top: 4px;
         }
-        .manual-row {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 2px dashed #bcd4db;
-        }
-        .manual-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1d6f64;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .manual-title::before {
-            content: "✏️";
-            font-size: 1.2rem;
-        }
+
+        /* 手动输入区域 */
         .input-row {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .input-row input {
-            width: 100%;
+            gap: 16px;
+            margin-bottom: 8px;
         }
         .auto-hint {
-            font-size: 0.8rem;
-            color: #2a9d8f;
-            margin: 8px 0 4px 8px;
+            font-size: 0.85rem;
+            color: #1d7868;
+            margin: 4px 0 8px 4px;
         }
         .btn-manual-query {
-            background: #2a9d8f;
+            background: #2d8c7a;
             color: white;
             border: none;
             width: 100%;
-            padding: 16px;
+            padding: 14px 24px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 6px 14px rgba(45,140,122,0.25), inset 0 1px 2px rgba(255,255,255,0.4);
+            cursor: pointer;
+            transition: all 0.2s;
+            line-height: 1;
+            margin-top: 8px;
         }
+        .btn-manual-query:hover {
+            background: #236b5c;
+            box-shadow: 0 8px 18px rgba(45,140,122,0.35);
+        }
+        .btn-manual-query:active {
+            transform: scale(0.98);
+        }
+
+        /* 结果卡片 - 邮政绿背景，无左边框，内边距缩小至12px，增强层次 */
         .result-box {
-            background: white;
-            border-radius: 24px;
-            padding: 18px;
+            background: rgba(45,140,122,0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 28px;
+            padding: 12px;
             margin-top: 24px;
-            border: 1px solid #cee5e0;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 6px 14px rgba(30,80,60,0.06);
         }
         .result-title {
             font-weight: 700;
-            color: #0b4452;
+            color: #1a6b5c;
             margin-bottom: 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
-        .transit-card {
-            background: #f9fefe;
-            border-left: 8px solid #2a9d8f;
-            padding: 18px 16px;
-            border-radius: 20px;
-            margin-bottom: 14px;
+
+        /* 匹配转运站条目 - 列表形式，带序号，间距缩小至8px */
+        .transit-item {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            gap: 16px;
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 16px 18px;
+            border-radius: 24px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(255,255,255,0.6);
+            box-shadow: 0 2px 8px rgba(0,20,10,0.02);
+            transition: transform 0.1s;
         }
-        .transit-name {
+        .transit-item:last-child {
+            margin-bottom: 0;
+        }
+        .transit-item:active {
+            transform: scale(0.99);
+        }
+        .transit-index {
+            width: 32px;
+            height: 32px;
+            background: #2d8c7a;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 40px;
+            box-shadow: 0 4px 8px rgba(45,140,122,0.3);
+            flex-shrink: 0;
+        }
+        .transit-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .transit-station {
             font-weight: 700;
             font-size: 1.1rem;
-            color: #0f3b4c;
-            flex: 1 1 100%;
+            color: #0f5347;
         }
-        .badge {
-            background: #def0ec;
-            padding: 8px 16px;
-            border-radius: 40px;
-            color: #146359;
+        .transit-route {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 0.9rem;
+        }
+        .route-badge {
+            background: rgba(45,140,122,0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            padding: 4px 12px;
+            border-radius: 40px;
+            color: #1a6b5c;
             font-weight: 600;
-            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.5);
         }
+        .route-arrow {
+            color: #2d8c7a;
+            font-weight: 600;
+        }
+
         .empty-msg {
-            color: #617e8a;
-            padding: 22px;
+            color: #619e92;
+            padding: 28px;
             text-align: center;
-            background: #f6fafc;
-            border-radius: 20px;
+            background: rgba(242,251,249,0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 24px;
             font-size: 1rem;
+            border: 1px solid rgba(255,255,255,0.7);
         }
+
+        /* 表格 */
         .table-responsive {
             overflow-x: auto;
-            margin-top: 18px;
-            border-radius: 20px;
-            background: white;
-            padding: 4px 0;
+            margin-top: 20px;
+            border-radius: 24px;
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.7);
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 420px;
+            min-width: 440px;
             font-size: 0.9rem;
         }
         th {
-            background: #ddeef2;
-            color: #104451;
+            background: rgba(45,140,122,0.1);
+            color: #1f6e60;
             font-weight: 700;
             font-size: 0.8rem;
             text-transform: uppercase;
-            padding: 16px 12px;
+            padding: 18px 14px;
             text-align: left;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.05em;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
         td {
-            padding: 16px 12px;
-            border-bottom: 1px solid #e1ebef;
-            background: white;
+            padding: 16px 14px;
+            border-bottom: 1px solid rgba(45,140,122,0.1);
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             vertical-align: middle;
         }
         .delete-btn {
-            background: none;
-            border: 1.5px solid #ffaa99;
-            color: #b23e2c;
-            padding: 8px 16px;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1.5px solid #ffaa8a;
+            color: #b14a32;
+            padding: 8px 18px;
             border-radius: 40px;
             font-size: 0.8rem;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.1s;
-            background: #fff6f3;
+            transition: all 0.2s;
             white-space: nowrap;
         }
-        .delete-btn:hover {
-            background: #ffe9e4;
+        .delete-btn:active {
+            background: #ffe6de;
+            transform: scale(0.95);
         }
+
+        /* 统计 */
         .stats {
             font-size: 0.9rem;
-            color: #2f6a78;
+            color: #1a7a6a;
             font-weight: 600;
-            background: #e2f0f2;
-            padding: 6px 18px;
-            border-radius: 30px;
-            display: inline-block;
-        }
-        .flex-row {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            background: rgba(45,140,122,0.15);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            padding: 6px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.6);
         }
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            margin-bottom: 10px;
+            margin-bottom: 14px;
         }
-        .footer-note {
-            margin-top: 20px;
-            color: #4d707d;
-            font-size: 0.8rem;
-            text-align: center;
-            border-top: 1px solid #d0e0e5;
-            padding-top: 20px;
-        }
-        button, .btn, select, input[type="file"] {
-            touch-action: manipulation;
-        }
-        .encoding-tip {
-            background: #fff1e0;
-            border-left: 6px solid #e67e22;
-            padding: 12px 16px;
-            border-radius: 16px;
-            font-size: 0.85rem;
-            color: #5a3e1b;
-            margin-top: 16px;
-        }
-        .auto-query-tip {
-            background: #e0f2fe;
-            border-left: 6px solid #0284c7;
-            padding: 8px 16px;
-            border-radius: 16px;
-            font-size: 0.8rem;
-            color: #075985;
-            margin-bottom: 12px;
-        }
-        /* 密码行样式 */
+
+        /* 密码行 */
         .password-row {
-            margin: 16px 0;
+            margin: 18px 0;
             display: flex;
             align-items: center;
             gap: 10px;
-            background: #f0f6f9;
-            padding: 12px 16px;
+            background: rgba(232,247,242,0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 14px 18px;
             border-radius: 60px;
+            border: 1px solid rgba(255,255,255,0.8);
         }
         .password-row label {
             font-weight: 600;
-            color: #0f4b5c;
+            color: #1f6e60;
         }
         .password-row input {
             flex: 1;
-            padding: 12px 16px;
-            border: 1px solid #bcd4db;
+            padding: 14px 18px;
+            border: 1px solid rgba(255,255,255,0.8);
             border-radius: 40px;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             font-size: 0.95rem;
-            background: white;
         }
         .password-row button {
-            background: #2a9d8f;
+            background: #2d8c7a;
+            color: white;
+            border: none;
+            padding: 12px 26px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(45,140,122,0.2);
+        }
+
+        /* 测试连接 */
+        .test-connection {
+            margin: 12px 0 22px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .test-connection button {
+            background: #1b8a9c;
             color: white;
             border: none;
             padding: 12px 24px;
             border-radius: 40px;
             font-weight: 600;
             cursor: pointer;
-        }
-        .test-connection {
-            margin: 10px 0 20px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .test-connection button {
-            background: #0284c7;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 40px;
-            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(27,138,156,0.2);
         }
         .test-connection span {
-            color: #0f4b5c;
+            color: #1f6e60;
+            font-size: 0.9rem;
+            word-break: break-word;
+        }
+
+        /* 提示框 */
+        .encoding-tip, .speed-tip {
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 14px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 16px 0;
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+        .encoding-tip {
+            background: rgba(255,249,237,0.4);
+            border-left: 6px solid #e68a2e;
+            color: #5a4a2b;
+        }
+        .speed-tip {
+            background: rgba(240,240,253,0.4);
+            border-left: 6px solid #6a4b8f;
+            color: #3a2c5e;
+        }
+
+        .auto-query-tip {
+            background: rgba(217,240,252,0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-left: 6px solid #1b8a9c;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #0c5b7a;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        /* 加载动画 */
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(45,140,122,0.3);
+            border-top-color: #2d8c7a;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            color: #619e92;
+            font-size: 0.8rem;
+            text-align: center;
+            border-top: 1px solid rgba(199,227,219,0.5);
+            padding-top: 24px;
+        }
+
+        /* 自定义模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 32px;
+            padding: 28px 24px;
+            max-width: 320px;
+            width: 90%;
+            box-shadow: 0 30px 50px rgba(30,80,60,0.2), inset 0 1px 3px rgba(255,255,255,0.8);
+            border: 1px solid rgba(255,255,255,0.7);
+            animation: modalFadeIn 0.2s;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-content h3 {
+            color: #1f6e60;
+            margin-bottom: 16px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .modal-content input {
+            width: 100%;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        .modal-buttons button {
+            padding: 12px 24px;
+            border-radius: 40px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .modal-buttons .btn-cancel {
+            background: rgba(240,240,240,0.5);
+            color: #555;
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+        .modal-buttons .btn-confirm {
+            background: #2d8c7a;
+            color: white;
+        }
+
+        button, .btn, select, input[type="file"] {
+            touch-action: manipulation;
         }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <h1>📦 通化邮政转运查询 <span>📦</span></h1>
+        <h1>
+            📮 速转运 
+            <span>通化邮政</span>
+        </h1>
 
-        <div class="flex-row">
-            <!-- 快递员查询单元 -->
-            <div class="card">
-                <h2>🔎 快递员查询</h2>
-                <div class="query-area">
-                    <div class="auto-query-tip">⚡ 快速选择：下拉选点后自动匹配</div>
-                    <div class="select-row">
-                        <select id="originSelect"><option value="" disabled selected>— 发件目的地 —</option></select>
-                        <select id="destSelect"><option value="" disabled selected>— 收件目的地 —</option></select>
-                        <button id="queryBtn" class="btn btn-primary">🔁 下拉查询</button>
-                    </div>
-                    <div class="manual-row">
-                        <div class="manual-title">手动输入目的地（自动查询）</div>
-                        <div class="input-row">
-                            <input type="text" id="manualOrigin" placeholder="输入发件地（如：深圳）">
-                            <input type="text" id="manualDest" placeholder="输入收件地（如：南京）">
-                        </div>
-                        <div class="auto-hint">⏱️ 输入完成后稍等片刻，自动显示结果</div>
-                        <button id="manualQueryBtn" class="btn btn-manual-query">✏️ 手动查询（备用）</button>
-                    </div>
-                    <div class="result-box">
-                        <div class="result-title">
-                            <span>🚚 匹配转运站</span>
-                            <span id="resultCount" style="background: #2a9d8f20; padding:5px 16px; border-radius:40px;">0</span>
-                        </div>
-                        <div id="resultList"><div class="empty-msg">👆 请选择或输入地点，自动匹配</div></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 管理转运站单元（默认折叠，点击展开需密码验证） -->
-            <div class="card">
-                <details id="manageDetails" class="manage-details">
-                    <summary>⚙️ 管理转运站</summary>
-                    <div class="manage-content">
-                        <!-- 测试连接 -->
-                        <div class="test-connection">
-                            <button id="testConnectionBtn">🔄 测试连接</button>
-                            <span id="connectionStatus"></span>
-                        </div>
-
-                        <!-- 管理员密码输入框（始终可手动录入） -->
-                        <div class="password-row">
-                            <label>🔑 管理密码</label>
-                            <input type="password" id="adminPassword" placeholder="请输入密码（验证成功后自动填充）">
-                            <button id="clearPasswordBtn" type="button">清除</button>
-                        </div>
-                        <p style="font-size:0.8rem; color:#0f4b5c; margin:0 0 12px 8px;">提示：密码可手动修改，所有修改操作将使用当前框内密码。若密码错误会自动弹出输入窗口。</p>
-
-                        <div class="btn-group">
-                            <label for="importFile" class="btn btn-outline">📂 导入替换</label>
-                            <input type="file" id="importFile" class="file-input" accept=".csv, text/csv, text/plain">
-                            <button id="exportBtn" class="btn btn-outline">⬇️ 导出CSV</button>
-                            <label for="updateFile" class="btn btn-primary">🔄 上传更新</label>
-                            <input type="file" id="updateFile" class="file-input" accept=".csv, text/csv, text/plain">
-                        </div>
-
-                        <div class="encoding-tip">
-                            💡 所有修改操作需输入上方密码（可手动输入）。<br>
-                            数据云端存储，多用户共享。
-                        </div>
-
-                        <div class="form-row">
-                            <div class="input-group">
-                                <label>🚩 转运站名称</label>
-                                <input type="text" id="newStationName" placeholder="例：上海浦东西">
-                            </div>
-                            <div class="input-group">
-                                <label>📤 发件目的地</label>
-                                <input type="text" id="newOrigin" placeholder="城市/区域">
-                            </div>
-                            <div class="input-group">
-                                <label>📥 收件目的地</label>
-                                <input type="text" id="newDest" placeholder="城市/区域">
-                            </div>
-                            <button id="addRecordBtn" class="btn btn-primary" style="width:100%;">➕ 添加此路线</button>
-                        </div>
-
-                        <div class="section-header">
-                            <span style="font-weight:700;">📋 当前转运表</span>
-                            <span id="recordCount" class="stats">0 条</span>
-                        </div>
-                        <div class="table-responsive">
-                            <table id="stationTable">
-                                <thead><tr><th>转运站</th><th>发件地</th><th>收件地</th><th>操作</th></tr></thead>
-                                <tbody id="tableBody"></tbody>
-                            </table>
+        <!-- 快递员查询单元（默认展开） -->
+        <details class="card" id="queryDetails" open>
+            <summary>🔎 快递员查询</summary>
+            <div class="query-area">
+                <!-- 快速选择折叠面板（默认折叠） -->
+                <details class="nested-details" id="quickSelectDetails">
+                    <summary>⚡ 快速选择</summary>
+                    <div class="nested-content">
+                        <div class="auto-query-tip">下拉选点后自动匹配</div>
+                        <div class="select-row">
+                            <select id="originSelect"><option value="" disabled selected>— 发件目的地 —</option></select>
+                            <select id="destSelect"><option value="" disabled selected>— 收件目的地 —</option></select>
+                            <button id="queryBtn" class="btn btn-primary">🔁 下拉查询</button>
                         </div>
                     </div>
                 </details>
+
+                <!-- 手动输入折叠面板（默认展开） -->
+                <details class="nested-details" id="manualDetails" open>
+                    <summary>✏️ 手动输入目的地</summary>
+                    <div class="nested-content">
+                        <div class="input-row">
+                            <input type="text" id="manualOrigin" placeholder="输入发件地（如：深圳）" value="通化">
+                            <input type="text" id="manualDest" placeholder="输入收件地（如：南京）">
+                        </div>
+                        <div class="auto-hint">⏱️ 输入完成后稍等片刻，自动显示结果</div>
+                        <button id="manualQueryBtn" class="btn-manual-query">✏️ 手动查询</button>
+                    </div>
+                </details>
+                
+                <div class="result-box">
+                    <div class="result-title">
+                        <span>🚚 匹配转运站</span>
+                        <span id="resultCount" style="background:#def0ec; padding:5px 16px; border-radius:40px;">0</span>
+                    </div>
+                    <div id="resultList">
+                        <div class="empty-msg">👆 请选择或输入地点，自动匹配</div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </details>
+
+        <!-- 管理转运站单元（默认折叠） -->
+        <details class="card" id="manageDetails">
+            <summary>⚙️ 管理转运站</summary>
+            <div class="manage-content">
+                <div class="test-connection">
+                    <button id="testConnectionBtn">🔄 测试连接</button>
+                    <span id="connectionStatus"></span>
+                </div>
+
+                <div class="speed-tip">
+                    🚀 国内访问建议：为 Worker 绑定自定义域名（如 <code>api.yourdomain.com</code>），然后在代码中修改 <code>API_BASE</code>，可显著提升速度。
+                </div>
+
+                <div class="password-row">
+                    <label>🔑 管理密码</label>
+                    <input type="password" id="adminPassword" placeholder="密码（验证成功后自动填充）">
+                    <button id="clearPasswordBtn" type="button">清除</button>
+                </div>
+                <p style="font-size:0.8rem; color:#1d7868; margin:0 0 12px 8px;">提示：所有修改操作使用当前密码，错误时会自动重试。</p>
+
+                <div class="btn-group">
+                    <label for="importFile" class="btn btn-outline">📂 导入替换</label>
+                    <input type="file" id="importFile" class="file-input" accept=".csv, text/csv, text/plain">
+                    <button id="exportBtn" class="btn btn-outline">⬇️ 导出CSV</button>
+                    <label for="updateFile" class="btn btn-primary">🔄 上传更新</label>
+                    <input type="file" id="updateFile" class="file-input" accept=".csv, text/csv, text/plain">
+                </div>
+
+                <div class="encoding-tip">
+                    💡 所有修改操作需输入上方密码。<br>
+                    数据云端存储，多用户共享。
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>🚩 转运站名称</label>
+                        <input type="text" id="newStationName" placeholder="例：上海浦东西">
+                    </div>
+                    <div class="input-group">
+                        <label>📤 发件目的地</label>
+                        <input type="text" id="newOrigin" placeholder="城市/区域">
+                    </div>
+                    <div class="input-group">
+                        <label>📥 收件目的地</label>
+                        <input type="text" id="newDest" placeholder="城市/区域">
+                    </div>
+                    <button id="addRecordBtn" class="btn btn-primary" style="width:100%;">➕ 添加此路线</button>
+                </div>
+
+                <div class="section-header">
+                    <span style="font-weight:700;">📋 当前转运表</span>
+                    <span id="recordCount" class="stats">0 条</span>
+                </div>
+                <div class="table-responsive">
+                    <table id="stationTable">
+                        <thead><tr><th>转运站</th><th>发件地</th><th>收件地</th><th>操作</th></tr></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </details>
 
         <div class="footer-note">
-            📱 折叠密码增强版 · 每次展开需密码 · 添加操作自动处理密码错误
+            📱 速转运 · 通化邮政
+        </div>
+    </div>
+
+    <!-- 自定义密码模态框 -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <h3>🔑 请输入密码</h3>
+            <input type="password" id="modalPassword" placeholder="管理员密码" autocomplete="off">
+            <div class="modal-buttons">
+                <button class="btn-cancel" id="modalCancel">取消</button>
+                <button class="btn-confirm" id="modalConfirm">确认</button>
+            </div>
         </div>
     </div>
 
@@ -540,8 +880,7 @@
             "use strict";
 
             // ========== 配置 ==========
-            // ⚠️ 请替换为您的 Worker 域名 + /api
-            const API_BASE = 'https://express-transfer-api.511561460.workers.dev/api';  // <-- 修改这里！
+            const API_BASE = 'https://api-lujing.amweb.win/api';  // <-- 修改为您的实际域名
 
             const DEFAULT_STATIONS = [
                 { station: "上海浦东西转运中心", origin: "上海", destination: "北京" },
@@ -553,10 +892,17 @@
                 { station: "武汉华中转运仓", origin: "武汉", destination: "西安" },
                 { station: "武汉华中转运仓", origin: "武汉", destination: "南京" },
                 { station: "成都青白江中转站", origin: "成都", destination: "北京" },
-                { station: "西安陆港转运场", origin: "西安", destination: "兰州" }
+                { station: "西安陆港转运场", origin: "西安", destination: "兰州" },
+                { station: "通化中转站", origin: "通化", destination: "沈阳" }
             ];
 
             let stations = [];
+            let isLoading = false;
+            let isRefreshing = false;
+            let clearManualDestTimer = null; // 2秒清空输入框的定时器
+
+            // 检测是否为触摸设备（手机/平板）
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
             // DOM 元素
             const tableBody = document.getElementById('tableBody');
@@ -581,24 +927,28 @@
             const connectionStatus = document.getElementById('connectionStatus');
             const clearPasswordBtn = document.getElementById('clearPasswordBtn');
             const manageDetails = document.getElementById('manageDetails');
+            const queryDetails = document.getElementById('queryDetails');
+            const summaryManage = manageDetails.querySelector('summary');
 
-            // ========== API 交互 ==========
-            async function loadFromAPI() {
+            const quickSelectDetails = document.getElementById('quickSelectDetails');
+            const manualDetails = document.getElementById('manualDetails');
+
+            const modal = document.getElementById('passwordModal');
+            const modalPassword = document.getElementById('modalPassword');
+            const modalCancel = document.getElementById('modalCancel');
+            const modalConfirm = document.getElementById('modalConfirm');
+
+            async function fetchFromAPI(timeout = 5000) {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), timeout);
                 try {
-                    const response = await fetch(`${API_BASE}/stations`);
+                    const response = await fetch(`${API_BASE}/stations`, { signal: controller.signal });
+                    clearTimeout(timeoutId);
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    const data = await response.json();
-                    return data;
+                    return await response.json();
                 } catch (error) {
-                    console.error('从 API 加载失败', error);
-                    const backup = localStorage.getItem('transit_stations_backup');
-                    if (backup) {
-                        try {
-                            const parsed = JSON.parse(backup);
-                            if (Array.isArray(parsed)) return parsed;
-                        } catch (e) {}
-                    }
-                    return null;
+                    clearTimeout(timeoutId);
+                    throw error;
                 }
             }
 
@@ -617,51 +967,63 @@
                 }
             }
 
-            /**
-             * 增强版保存函数：自动处理密码为空或密码错误的情况
-             * @param {Array} data 要保存的数据
-             * @param {number} retryCount 内部重试计数，调用时不要传
-             * @returns {Promise<boolean>} 是否成功
-             */
+            function showPasswordModal() {
+                return new Promise((resolve) => {
+                    modal.classList.add('active');
+                    modalPassword.value = '';
+                    modalPassword.focus();
+
+                    const onConfirm = () => {
+                        cleanup();
+                        resolve(modalPassword.value);
+                    };
+                    const onCancel = () => {
+                        cleanup();
+                        resolve(null);
+                    };
+                    const onKeyDown = (e) => {
+                        if (e.key === 'Enter') onConfirm();
+                        if (e.key === 'Escape') onCancel();
+                    };
+
+                    const cleanup = () => {
+                        modal.classList.remove('active');
+                        modalConfirm.removeEventListener('click', onConfirm);
+                        modalCancel.removeEventListener('click', onCancel);
+                        document.removeEventListener('keydown', onKeyDown);
+                    };
+
+                    modalConfirm.addEventListener('click', onConfirm);
+                    modalCancel.addEventListener('click', onCancel);
+                    document.addEventListener('keydown', onKeyDown);
+                });
+            }
+
             async function saveToAPI(data, retryCount = 0) {
-                // 最多重试3次
                 if (retryCount >= 3) {
                     alert('多次尝试失败，请稍后重试');
                     return false;
                 }
-
                 let password = adminPassword.value.trim();
-                
-                // 如果密码框为空，弹出输入框让用户输入
                 if (!password) {
-                    const pwd = prompt('请输入管理员密码以执行此操作：');
-                    if (!pwd) return false; // 用户取消
-                    // 将密码填入框内，便于后续操作
-                    adminPassword.value = pwd;
-                    password = pwd;
+                    password = await showPasswordModal();
+                    if (!password) return false;
+                    adminPassword.value = password;
                 }
-
                 try {
                     const response = await fetch(`${API_BASE}/stations`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ password, data })
                     });
-
                     if (response.ok) {
-                        // 保存成功后备份到本地
                         localStorage.setItem('transit_stations_backup', JSON.stringify(data));
                         return true;
                     }
-
-                    // 处理错误响应
                     const err = await response.json();
                     if (response.status === 403) {
-                        // 密码错误
                         alert('密码错误，请重新输入');
-                        // 清空密码框，让用户重新输入
                         adminPassword.value = '';
-                        // 递归重试
                         return saveToAPI(data, retryCount + 1);
                     } else {
                         alert(`保存失败: ${err.error || '未知错误'}`);
@@ -675,36 +1037,69 @@
             }
 
             async function loadStations() {
-                const data = await loadFromAPI();
-                if (data && Array.isArray(data)) {
-                    stations = data;
+                if (isLoading) return;
+                isLoading = true;
+
+                const backup = localStorage.getItem('transit_stations_backup');
+                if (backup) {
+                    try {
+                        const parsed = JSON.parse(backup);
+                        if (Array.isArray(parsed)) {
+                            stations = parsed;
+                            refreshUI();
+                        }
+                    } catch (e) {}
                 } else {
                     stations = [...DEFAULT_STATIONS];
-                    await saveToAPI(stations);
+                    refreshUI();
                 }
-                return stations;
+
+                refreshFromAPI();
+            }
+
+            async function refreshFromAPI() {
+                if (isRefreshing) return;
+                isRefreshing = true;
+
+                const originalResult = resultList.innerHTML;
+                resultList.innerHTML = `<div class="empty-msg"><span class="loading-spinner"></span> 正在刷新数据...</div>`;
+
+                try {
+                    const data = await fetchFromAPI(5000);
+                    if (Array.isArray(data)) {
+                        stations = data;
+                        localStorage.setItem('transit_stations_backup', JSON.stringify(data));
+                        refreshUI();
+                    } else {
+                        throw new Error('数据格式错误');
+                    }
+                } catch (error) {
+                    console.warn('后台刷新失败，继续使用缓存', error);
+                } finally {
+                    isRefreshing = false;
+                }
             }
 
             async function saveStationsAndRefresh() {
                 const success = await saveToAPI(stations);
                 if (success) {
                     refreshUI();
+                    refreshFromAPI();
                 }
             }
 
-            // ========== UI 渲染 ==========
             function renderTable() {
                 if (!tableBody) return;
-                if (stations.length === 0) {
+                if (!stations || stations.length === 0) {
                     tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:30px;">📭 暂无数据</td></tr>`;
                     return;
                 }
                 let html = '';
                 stations.forEach((item, index) => {
                     html += `<tr>
-                        <td style="font-weight:600;">${escapeHtml(item.station)}</td>
-                        <td>${escapeHtml(item.origin)}</td>
-                        <td>${escapeHtml(item.destination)}</td>
+                        <td style="font-weight:600;">${escapeHtml(item.station || '')}</td>
+                        <td>${escapeHtml(item.origin || '')}</td>
+                        <td>${escapeHtml(item.destination || '')}</td>
                         <td><button class="delete-btn" data-index="${index}">删除</button></td>
                     </tr>`;
                 });
@@ -737,13 +1132,43 @@
                 const oldOrigin = originSelect.value;
                 const oldDest = destSelect.value;
 
-                originSelect.innerHTML = `<option value="" disabled selected>— 发件目的地 —</option>` +
-                    origins.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
-                destSelect.innerHTML = `<option value="" disabled selected>— 收件目的地 —</option>` +
-                    destinations.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+                originSelect.innerHTML = '';
+                const originPlaceholder = document.createElement('option');
+                originPlaceholder.value = '';
+                originPlaceholder.disabled = true;
+                originPlaceholder.selected = true;
+                originPlaceholder.textContent = '— 发件目的地 —';
+                originSelect.appendChild(originPlaceholder);
+                origins.forEach(city => {
+                    const opt = document.createElement('option');
+                    opt.value = city;
+                    opt.textContent = city;
+                    originSelect.appendChild(opt);
+                });
 
-                if (origins.includes(oldOrigin)) originSelect.value = oldOrigin;
-                if (destinations.includes(oldDest)) destSelect.value = oldDest;
+                destSelect.innerHTML = '';
+                const destPlaceholder = document.createElement('option');
+                destPlaceholder.value = '';
+                destPlaceholder.disabled = true;
+                destPlaceholder.selected = true;
+                destPlaceholder.textContent = '— 收件目的地 —';
+                destSelect.appendChild(destPlaceholder);
+                destinations.forEach(city => {
+                    const opt = document.createElement('option');
+                    opt.value = city;
+                    opt.textContent = city;
+                    destSelect.appendChild(opt);
+                });
+
+                if (origins.includes(oldOrigin)) {
+                    originSelect.value = oldOrigin;
+                } else if (origins.includes('通化')) {
+                    originSelect.value = '通化';
+                }
+
+                if (destinations.includes(oldDest)) {
+                    destSelect.value = oldDest;
+                }
             }
 
             function clearQueryResult() {
@@ -757,21 +1182,58 @@
                     return;
                 }
                 const matched = stations.filter(item => item.origin === origin && item.destination === dest);
-                if (matched.length === 0) {
-                    resultList.innerHTML = `<div class="empty-msg">🚫 无匹配转运站<br><span style="font-size:0.85rem;">${escapeHtml(origin)} → ${escapeHtml(dest)}</span></div>`;
-                    resultCount.innerText = '0';
-                } else {
+                const hasMatch = matched.length > 0;
+                
+                if (hasMatch) {
                     let html = '';
-                    matched.forEach(item => {
-                        html += `<div class="transit-card">
-                            <span class="transit-name">🚛 ${escapeHtml(item.station)}</span>
-                            <span class="badge">${escapeHtml(item.origin)}</span>
-                            <span style="color: #2a9d8f;">→</span>
-                            <span class="badge">${escapeHtml(item.destination)}</span>
-                        </div>`;
+                    matched.forEach((item, idx) => {
+                        html += `
+                            <div class="transit-item">
+                                <div class="transit-index">${idx + 1}</div>
+                                <div class="transit-info">
+                                    <div class="transit-station">${escapeHtml(item.station)}</div>
+                                    <div class="transit-route">
+                                        <span class="route-badge">${escapeHtml(item.origin)}</span>
+                                        <span class="route-arrow">→</span>
+                                        <span class="route-badge">${escapeHtml(item.destination)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
                     });
                     resultList.innerHTML = html;
                     resultCount.innerText = `${matched.length}`;
+
+                    // 命中：立即失焦（电脑端隐藏键盘）
+                    manualDest.blur();
+
+                    // 清除之前的清空定时器
+                    if (clearManualDestTimer) {
+                        clearTimeout(clearManualDestTimer);
+                    }
+
+                    // 延迟2秒清空输入框，并重新聚焦（仅非触摸设备）
+                    clearManualDestTimer = setTimeout(() => {
+                        manualDest.value = '';
+                        // 仅在非触摸设备（电脑）上重新聚焦，避免手机端意外弹出键盘
+                        if (!isTouchDevice) {
+                            manualDest.focus();
+                        }
+                        clearManualDestTimer = null;
+                    }, 2000);
+                } else {
+                    // 未命中：立即清空输入框，但不隐藏键盘
+                    resultList.innerHTML = `<div class="empty-msg">🚫 无匹配转运站<br><span style="font-size:0.85rem;">${escapeHtml(origin)} → ${escapeHtml(dest)}</span></div>`;
+                    resultCount.innerText = '0';
+
+                    // 立即清空输入框
+                    manualDest.value = '';
+
+                    // 如果有定时器，清除
+                    if (clearManualDestTimer) {
+                        clearTimeout(clearManualDestTimer);
+                        clearManualDestTimer = null;
+                    }
                 }
             }
 
@@ -779,61 +1241,54 @@
                 renderTable();
                 renderDropdowns();
                 updateRecordCount();
-                clearQueryResult();
             }
 
-            // ========== 折叠面板密码验证 ==========
-            const summary = manageDetails.querySelector('summary');
-            summary.addEventListener('click', async (e) => {
-                // 阻止默认的 toggle 行为，由我们控制展开
+            summaryManage.removeEventListener('click', handleSummaryClick);
+            summaryManage.addEventListener('click', handleSummaryClick);
+
+            function handleSummaryClick(e) {
                 e.preventDefault();
+                e.stopPropagation();
 
-                // 如果已经展开，则让浏览器执行默认折叠（不阻止默认）
                 if (manageDetails.open) {
-                    // 这里我们不设置 open 为 false，而是让浏览器处理默认行为（因为我们阻止了默认，所以需要手动设置）
-                    // 但为了简单，我们可以直接让浏览器处理，所以我们在这里判断如果已展开，就放行
-                    // 但是 e.preventDefault 已经阻止，所以我们需要手动设置 open = false 来折叠
                     manageDetails.open = false;
-                    return;
-                }
-
-                // 如果未展开，执行密码验证
-                const pwd = prompt('请输入管理员密码以展开管理面板：');
-                if (!pwd) return;
-
-                const isValid = await verifyPassword(pwd);
-                if (isValid) {
-                    manageDetails.open = true;
-                    adminPassword.value = pwd;
                 } else {
-                    alert('密码错误，无法展开管理面板');
-                }
-            });
+                    (async () => {
+                        const pwd = await showPasswordModal();
+                        if (!pwd) return;
 
-            // ========== 其他事件绑定 ==========
+                        const isValid = await verifyPassword(pwd);
+                        if (isValid) {
+                            manageDetails.open = true;
+                            adminPassword.value = pwd;
+                        } else {
+                            alert('密码错误，无法展开管理面板');
+                        }
+                    })();
+                }
+            }
+
             function bindEvents() {
-                // 测试连接
                 testConnectionBtn.addEventListener('click', async () => {
-                    connectionStatus.innerText = '连接中...';
+                    connectionStatus.innerHTML = '<span class="loading-spinner"></span> 连接中...';
                     try {
                         const response = await fetch(`${API_BASE}/stations`);
                         if (response.ok) {
-                            connectionStatus.innerText = '✅ 连接成功';
+                            const data = await response.json();
+                            connectionStatus.innerHTML = `✅ 成功 (${data.length} 条数据)`;
                         } else {
-                            connectionStatus.innerText = `❌ 失败 (HTTP ${response.status})`;
+                            connectionStatus.innerHTML = `❌ 失败 (HTTP ${response.status})`;
                         }
                     } catch (error) {
-                        connectionStatus.innerText = '❌ 网络错误';
+                        connectionStatus.innerHTML = `❌ 网络错误: ${error.message}`;
                     }
                 });
 
-                // 清除密码按钮：清空密码框
                 clearPasswordBtn.addEventListener('click', () => {
                     adminPassword.value = '';
                     adminPassword.focus();
                 });
 
-                // 查询
                 queryBtn.addEventListener('click', () => {
                     queryTransitStation(originSelect.value, destSelect.value);
                 });
@@ -847,30 +1302,60 @@
                 manualQueryBtn.addEventListener('click', () => {
                     const origin = manualOrigin.value.trim();
                     const dest = manualDest.value.trim();
-                    if (origin && dest) queryTransitStation(origin, dest);
-                    else alert('请完整填写发件地和收件地');
+                    if (origin && dest) {
+                        queryTransitStation(origin, dest);
+                    } else {
+                        alert('请完整填写发件地和收件地');
+                    }
                 });
 
-                // 手动输入自动查询（防抖）
+                // 手动输入框按回车时触发查询
+                manualDest.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const origin = manualOrigin.value.trim();
+                        const dest = manualDest.value.trim();
+                        if (origin && dest) {
+                            queryTransitStation(origin, dest);
+                        }
+                    }
+                });
+
                 let manualTimer;
-                manualOrigin.addEventListener('input', () => {
+                const handleManualInput = () => {
                     clearTimeout(manualTimer);
                     manualTimer = setTimeout(() => {
                         const origin = manualOrigin.value.trim();
                         const dest = manualDest.value.trim();
-                        if (origin && dest) queryTransitStation(origin, dest);
+                        if (origin && dest) {
+                            queryTransitStation(origin, dest);
+                        }
                     }, 500);
-                });
-                manualDest.addEventListener('input', () => {
-                    clearTimeout(manualTimer);
-                    manualTimer = setTimeout(() => {
-                        const origin = manualOrigin.value.trim();
-                        const dest = manualDest.value.trim();
-                        if (origin && dest) queryTransitStation(origin, dest);
-                    }, 500);
+                };
+                manualOrigin.addEventListener('input', handleManualInput);
+                manualDest.addEventListener('input', handleManualInput);
+
+                // ========== 互斥展开：快速选择 和 手动输入 不能同时打开 ==========
+                let isMutualExcluding = false;
+
+                quickSelectDetails.addEventListener('toggle', function(e) {
+                    if (isMutualExcluding) return;
+                    if (this.open) {
+                        isMutualExcluding = true;
+                        manualDetails.open = false;
+                        isMutualExcluding = false;
+                    }
                 });
 
-                // 添加记录
+                manualDetails.addEventListener('toggle', function(e) {
+                    if (isMutualExcluding) return;
+                    if (this.open) {
+                        isMutualExcluding = true;
+                        quickSelectDetails.open = false;
+                        isMutualExcluding = false;
+                    }
+                });
+
                 addRecordBtn.addEventListener('click', async function() {
                     const station = newStationName.value.trim();
                     const origin = newOrigin.value.trim();
@@ -886,7 +1371,6 @@
                     newDest.value = '';
                 });
 
-                // 导出 CSV
                 exportBtn.addEventListener('click', function() {
                     if (stations.length === 0) {
                         alert('暂无数据可导出');
@@ -905,7 +1389,6 @@
                     URL.revokeObjectURL(url);
                 });
 
-                // 导入 CSV（简化版，使用 GB2312 编码）
                 importFile.addEventListener('change', async function(e) {
                     const file = e.target.files[0];
                     if (!file) return;
@@ -936,7 +1419,6 @@
                     reader.readAsText(file, 'GB2312');
                 });
 
-                // 上传更新（同导入）
                 updateFile.addEventListener('change', async function(e) {
                     const file = e.target.files[0];
                     if (!file) return;
@@ -968,22 +1450,16 @@
                 });
             }
 
-            // 初始化
             async function init() {
-                document.body.classList.add('loading');
                 await loadStations();
-                refreshUI();
                 bindEvents();
-                document.body.classList.remove('loading');
 
-                // 确保初始面板折叠
                 manageDetails.open = false;
+                // queryDetails 已通过 open 属性展开
+                // manualDetails 已通过 open 属性展开
+                // quickSelectDetails 默认折叠
 
-                setTimeout(() => {
-                    if (originSelect.value && destSelect.value) {
-                        queryTransitStation(originSelect.value, destSelect.value);
-                    }
-                }, 100);
+                // 初始状态：不进行自动查询，保持空状态
             }
 
             init();
